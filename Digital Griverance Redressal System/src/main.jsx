@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import "bootstrap/dist/css/bootstrap.css";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route ,Navigate} from 'react-router-dom';
 import Header from './components/layouts/Header.jsx';
 import Login from './components/auth/Login.jsx';
 import Signup from './components/auth/Signup.jsx';
@@ -12,7 +12,10 @@ import CitizenDashboard from './components/citizen/CitizenDashboard.jsx';
 import store from './redux/store'
 import { Provider } from 'react-redux'
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import Unauthorized from "./components/Unauthorized.jsx"; 
+import Unauthorized from "./components/Unauthorized.jsx";
+import CitizenLayout from './components/citizen/CitizenLayout.jsx';
+import GrieveranceForm from './components/citizen/GrieveranceForm.jsx'
+import GirevanceDetails from './components/citizen/GirevanceDetails.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -31,16 +34,21 @@ createRoot(document.getElementById('root')).render(
               </ProtectedRoute>
             }
           />
-          {/* Protected routes for citizen */}
+
           <Route
-            path="/citizenDashboard"
+            path="/citizen/*"
             element={
               <ProtectedRoute allowedRoles={["Citizen"]}>
-                <CitizenDashboard />
+                <CitizenLayout />
               </ProtectedRoute>
             }
-          />
-          <Route path="/unauthorized" element={<Unauthorized />} /> 
+          >
+            <Route path="dashboard" element={<CitizenDashboard />} />
+            <Route path="grievance/:grievanceId" element={<GirevanceDetails />} />
+            <Route path="newForm" element={<GrieveranceForm />} />
+            <Route path="*" element={<Navigate to="dashboard" replace />} />
+          </Route>
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
       </BrowserRouter>
     </Provider>

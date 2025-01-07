@@ -4,7 +4,7 @@ import Users from "../models/userModel.js";
 
 const saltRounds = 10;
 // const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_SECRET = "gibbsrfakjfks"
+const JWT_SECRET = "anakinskywalker"
 
 export const signup = async (req, res, next) => {
   try {

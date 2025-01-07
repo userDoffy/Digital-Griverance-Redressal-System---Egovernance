@@ -23,21 +23,22 @@ const Header = () => {
 
   const navLinks = !auth
     ? [
-        { to: "/login", label: "Login" },
-        { to: "/signup", label: "Signup" },
-      ]
+      { to: "/login", label: "Login" },
+      { to: "/signup", label: "Signup" },
+    ]
     : role === "Admin"
-    ? [
+      ? [
         { to: "/adminDashboard", label: "Dashboard" },
         { to: "/", label: "Logout", onClick: handleLogout },
       ]
-    : [
-        { to: "/citizenDashboard", label: "Dashboard" },
+      : [
+        { to: "/citizen/dashboard", label: "Dashboard" },
+        { to: "/citizen/newForm", label: "Submit a Complaint" },
         { to: "/", label: "Logout", onClick: handleLogout },
       ];
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           {brandText}

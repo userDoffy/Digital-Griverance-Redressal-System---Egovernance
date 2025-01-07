@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import { connectDB } from "./src/config/db.js";
 import authRoutes from "./src/routes/authRoutes.js";
+import grievanceRoutes from './src/routes/grievanceRoutes.js'
 import { errorMiddleware } from "./src/middlewares/errorMiddleware.js";
+import {authMiddleware} from './src/middlewares/authMiddleware.js'
 import cors from "cors";
 
 const app = express();
@@ -14,9 +16,9 @@ app.use(express.json());
 app.use(cors());
 
 
-
 // Routes
 app.use("/auth", authRoutes);
+app.use("/citizen", authMiddleware, grievanceRoutes);
 
 app.use(errorMiddleware);
 

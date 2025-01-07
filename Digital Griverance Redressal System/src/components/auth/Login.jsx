@@ -20,7 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (auth) {
-      navigate(role === "Admin" ? "/adminDashboard" : "/citizenDashboard");
+      navigate(role === "Admin" ? "/adminDashboard" : "/citizen");
     }
   }, [auth, role, navigate]);
 
