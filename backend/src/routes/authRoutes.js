@@ -6,7 +6,7 @@ const router = express.Router();
 // Use async error handling with next()
 router.post("/signup", async (req, res, next) => {
   try {
-    await signup(req, res,next);
+    await signup(req, res, next);
   } catch (error) {
     next(error);
   }
@@ -14,10 +14,12 @@ router.post("/signup", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    await login(req, res,next);
+    await login(req, res, next);
   } catch (error) {
     next(error);
   }
 });
+
+
 
 export default router;

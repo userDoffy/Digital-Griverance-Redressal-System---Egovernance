@@ -1,25 +1,27 @@
 import express from "express";
-import { addGrievance, getGrievance } from "../controllers/grievanceController.js";
+import { complaintsByCategory, allComplaints} from "../controllers/grievanceController.js";
 import Grievance from '../models/grievanceModel.js'
 
 const router = express.Router();
 
 // Use async error handling with next()
-router.post("/addGrievance", async (req, res, next) => {
+
+router.get("/complaintsByCategory", async (req, res, next) => {
     try {
-        await addGrievance(req, res, next)
+        await complaintsByCategory(req, res, next)
     } catch (error) {
         next(error);
     }
 });
 
-router.post("/getGrievance", async (req, res, next) => {
+router.get("/allComplaints", async (req, res, next) => {
     try {
-        await getGrievance(req, res, next)
+        await allComplaints(req, res, next)
     } catch (error) {
         next(error);
     }
 });
+
 
 router.get("/getGrievance/:id", async (req, res, next) => {
     try {
@@ -33,7 +35,7 @@ router.get("/getGrievance/:id", async (req, res, next) => {
     }
 });
 
-router.post("/addUserResponse/:id", async (req, res, next) => {
+router.post("/addAdminResponse/:id", async (req, res, next) => {
     try {
         const { response } = req.body;
         const grievanceId = req.params.id;
@@ -47,17 +49,34 @@ router.post("/addUserResponse/:id", async (req, res, next) => {
             return res.status(404).json({ message: "Grievance not found." });
         }
 
-        grievance.userresponses.push({ response, responseDate: new Date() });
+        grievance.adminresponses.push({ response, responseDate: new Date() });
         await grievance.save();
 
         res.status(200).json({
             status: "success",
             message: "Response added successfully.",
-            response: grievance.userresponses[grievance.userresponses.length - 1], // Return the last added response
+            response: grievance.adminresponses[grievance.adminresponses.length - 1], // Return the last added response
         });
     } catch (error) {
         next(error);
     }
+})
+
+router.patch("/closeGrievance/:id", async (req, res, next) => {
+    try {
+        const grievance = await Grievance.findById(req.params.id);
+        if (!grievance) {
+            return res.status(404).json({ message: "Grievance not found." });
+        }
+
+        grievance.status = "Resolved";
+        await grievance.save();
+
+        res.status(200).json({ status: "Resolved" });
+    } catch (error) {
+        next(error);
+    }
 });
+
 
 export default router;

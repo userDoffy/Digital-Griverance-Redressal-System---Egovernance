@@ -2,24 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "../Chatbox.css";
 
 const GrievanceDetails = () => {
-    const { grievanceId } = useParams();  // Grievance ID from URL
+    const { grievanceId } = useParams();
     const [grievance, setGrievance] = useState(null);
-    const token = useSelector((state) => state.auth.token);  // Get the token from Redux
+    const [newMessage, setNewMessage] = useState("");
+    const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
         const fetchGrievanceDetails = async () => {
             try {
-                const response = await axios.get(
-                    `http://localhost:3000/citizen/getGrievance/${grievanceId}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                setGrievance(response.data.data); // Store grievance details in state
+                const response = await axios.get(`http://localhost:3000/citizen/getGrievance/${grievanceId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setGrievance(response.data.data);
             } catch (error) {
                 console.error("Error fetching grievance details:", error);
             }
@@ -27,64 +26,75 @@ const GrievanceDetails = () => {
         fetchGrievanceDetails();
     }, [grievanceId, token]);
 
+    const sendMessage = async () => {
+        if (!newMessage.trim() || grievance.status === "Resolved") return;
+
+        try {
+            const response = await axios.post(
+                `http://localhost:3000/citizen/addUserResponse/${grievanceId}`,
+                { response: newMessage },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setGrievance((prev) => ({
+                ...prev,
+                userresponses: [...prev.userresponses, response.data.response],
+            }));
+            setNewMessage("");
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
+    };
+
     if (!grievance) return <p>Loading...</p>;
 
-    return (
-        <div className="container mt-5">
-            {/* Title and Category */}
-            <div className="card mb-4">
-                <div className="card-body">
-                    <h3 className="card-title">{grievance.title}</h3>
-                    <h5 className="card-subtitle text-muted mb-3">
-                        Category: {grievance.category}
-                    </h5>
-                    <p>{grievance.description}</p>
-                    <p><strong>Status:</strong> {grievance.status}</p>
-                </div>
-            </div>
+    const allMessages = [
+        ...grievance.adminresponses.map((res) => ({ ...res, type: "admin" })),
+        ...grievance.userresponses.map((res) => ({ ...res, type: "citizen" })),
+    ].sort((a, b) => new Date(a.responseDate) - new Date(b.responseDate));
 
-            {/* Chat Interface for Responses */}
-            <div className="card">
-                <div className="card-header bg-primary text-white">
-                    <h4>Responses</h4>
-                </div>
-                <div className="card-body" style={{ maxHeight: "500px", overflowY: "scroll" }}>
-                    {/* Combine Admin & Citizen Responses */}
-                    {[
-                        ...grievance.adminresponses.map((resp) => ({
-                            type: "admin",
-                            message: resp.response,
-                            date: resp.responseDate,
-                        })),
-                        ...grievance.userresponses.map((resp) => ({
-                            type: "citizen",
-                            message: resp.response,
-                            date: resp.responseDate,
-                        })),
-                    ]
-                        .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort responses by date
-                        .map((response, index) => (
-                            <div
-                                key={index}
-                                className={`d-flex ${
-                                    response.type === "admin" ? "justify-content-end" : "justify-content-start"
-                                } mb-3`}
-                            >
-                                <div
-                                    className={`p-3 rounded message-bubble ${
-                                        response.type === "admin" ? "bg-light" : "bg-info text-white"
-                                    }`}
-                                    style={{ maxWidth: "60%" }}
-                                >
-                                    <p>{response.message}</p>
-                                    <small className="text-muted">
-                                        {new Date(response.date).toLocaleString()}
-                                    </small>
-                                </div>
+    return (
+        <div className="chat-container">
+            <h2 className="chat-header">{grievance.title}</h2>
+            <p className="text-muted">{grievance.description}</p>
+            <div className="chat-box">
+                {allMessages.map((message, index) => (
+                    <div key={index} className={`chat-message ${message.type}`}>
+                        <div className="message-content">
+                            {message.response}
+                            <div className="message-timestamp">
+                                {new Date(message.responseDate).toLocaleString()}
                             </div>
-                        ))}
-                </div>
+                        </div>
+                    </div>
+                ))}
+                {grievance.status === "Resolved" && (
+                    <div className="resolved-message">
+                        <p>Your issue has been resolved.</p>
+                    </div>
+                )}
             </div>
+            {grievance.status !== "Resolved" ? (
+                <div className="mt-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Type your message..."
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                    />
+                    <button className="btn btn-primary mt-2" onClick={sendMessage}>
+                        Send
+                    </button>
+                </div>
+            ) : (
+                <div className="chat-closed-message">
+                    <p className="text-success">Chat is closed. You can no longer send messages.</p>
+                </div>
+            )}
         </div>
     );
 };

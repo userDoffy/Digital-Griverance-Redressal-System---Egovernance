@@ -28,7 +28,8 @@ const Header = () => {
     ]
     : role === "Admin"
       ? [
-        { to: "/adminDashboard", label: "Dashboard" },
+        { to: "/admin/dashboard", label: "Dashboard" },
+        { to: "/admin/complaints", label: "Complaints" },
         { to: "/", label: "Logout", onClick: handleLogout },
       ]
       : [

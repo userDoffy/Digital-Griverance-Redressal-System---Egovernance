@@ -1,0 +1,62 @@
+/* ChatBox.css */
+.chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.chat-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chat-box {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.chat-message.admin {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.chat-message.citizen {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.chat-message .message-content {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.chat-message.admin .message-content {
+    background-color: #36a2eb;
+    color: #fff;
+}
+
+.chat-message.citizen .message-content {
+    background-color: #e8e8e8;
+    color: #333;
+}
+
+.chat-message .message-timestamp {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}

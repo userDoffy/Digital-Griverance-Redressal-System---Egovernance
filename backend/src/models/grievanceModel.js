@@ -6,7 +6,7 @@ const grievanceSchema = mongoose.Schema(
         title: { type: String, required: true },
         category: { type: String, required: true },
         description: { type: String, required: true },
-        status: { type: String, enum: ["Pending", "InProgress", "Resolved"], default: "Pending" },
+        status: { type: String, enum: ["Pending", "Resolved"], default: "Pending" },
         adminresponses: [
             {
                 response: { type: String },
