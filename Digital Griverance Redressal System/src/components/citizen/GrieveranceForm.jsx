@@ -17,7 +17,7 @@ const GrievanceForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:3000/citizen/addGrievance",
+                "https://digital-griverance-redressal-system.onrender.com/citizen/addGrievance",
                 formData,
                 {
                     headers: {

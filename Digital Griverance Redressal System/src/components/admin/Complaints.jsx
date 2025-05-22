@@ -10,7 +10,7 @@ const Complaints = () => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/admin/allComplaints", {
+        const response = await axios.get("https://digital-griverance-redressal-system.onrender.com/admin/allComplaints", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setComplaints(response.data.data);

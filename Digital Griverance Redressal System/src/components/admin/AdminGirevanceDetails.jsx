@@ -14,7 +14,7 @@ const AdminGrievanceDetails = () => {
     useEffect(() => {
         const fetchGrievanceDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/admin/getGrievance/${grievanceId}`, {
+                const response = await axios.get(`https://digital-griverance-redressal-system.onrender.com/admin/getGrievance/${grievanceId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

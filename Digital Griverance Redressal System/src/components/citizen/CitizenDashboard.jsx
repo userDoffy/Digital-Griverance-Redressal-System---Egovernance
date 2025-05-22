@@ -12,7 +12,7 @@ const CitizenDashboard = () => {
     useEffect(() => {
         const fetchGrievances = async () => {
             try {
-                const response = await axios.post("http://localhost:3000/citizen/getGrievance", {}, {
+                const response = await axios.post("https://digital-griverance-redressal-system.onrender.com/citizen/getGrievance", {}, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",

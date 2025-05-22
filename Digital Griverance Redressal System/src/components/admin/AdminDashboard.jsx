@@ -19,7 +19,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const fetchComplaintsByCategory = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/admin/complaintsByCategory", {
+                const response = await axios.get("https://digital-griverance-redressal-system.onrender.com/admin/complaintsByCategory", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

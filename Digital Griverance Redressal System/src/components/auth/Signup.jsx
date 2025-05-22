@@ -28,7 +28,7 @@ const Signup = () => {
   
       try {
         const response = await axios.post(
-          "http://localhost:3000/auth/signup",
+          "https://digital-griverance-redressal-system.onrender.com/auth/signup",
           formData,
           { headers: { "Content-Type": "application/json" } }
         );

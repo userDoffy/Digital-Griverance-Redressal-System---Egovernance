@@ -13,7 +13,7 @@ const GrievanceDetails = () => {
     useEffect(() => {
         const fetchGrievanceDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/citizen/getGrievance/${grievanceId}`, {
+                const response = await axios.get(`https://digital-griverance-redressal-system.onrender.com/citizen/getGrievance/${grievanceId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -31,7 +31,7 @@ const GrievanceDetails = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:3000/citizen/addUserResponse/${grievanceId}`,
+                `https://digital-griverance-redressal-system.onrender.com/citizen/addUserResponse/${grievanceId}`,
                 { response: newMessage },
                 {
                     headers: {
