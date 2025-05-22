@@ -33,7 +33,7 @@ const AdminGrievanceDetails = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:3000/admin/addAdminResponse/${grievanceId}`,
+                `https://digital-griverance-redressal-system.onrender.com/admin/addAdminResponse/${grievanceId}`,
                 { response: newMessage },
                 {
                     headers: {
@@ -55,7 +55,7 @@ const AdminGrievanceDetails = () => {
     const closeIssue = async () => {
         try {
             const response = await axios.patch(
-                `http://localhost:3000/admin/closeGrievance/${grievanceId}`,
+                `https://digital-griverance-redressal-system.onrender.com/admin/closeGrievance/${grievanceId}`,
                 { status: "Resolved" },
                 {
                     headers: {
