@@ -1,11 +1,5 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# MERN Project For Digital Griverance System hosted on Vercel and Render (free tier so backend needs 50 seconds load time due to inactivity)
+<h3>A egovernance project where citizens can submit complaints and admins solve the problem with citizen interaction</h3>
 
 Screenshots:
 
